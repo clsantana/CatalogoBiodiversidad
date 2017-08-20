@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'CatalogoBiodiversidad.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'catalogoBiodiversidad_db',
+        'NAME': 'catalogoBio_db',
         'USER': 'postgres',
         'PASSWORD': 'agil2017',
         'HOST': '127.0.0.1',
