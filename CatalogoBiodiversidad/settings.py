@@ -26,7 +26,7 @@ SECRET_KEY = 'g5%^6(f!+c)q@^w8!bq_!a%79j5#layd%$b)&lqf9vfc@7^va_'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', 'catalogobiodiversidad.herokuapp.com']
 
 
 # Application definition
