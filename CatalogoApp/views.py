@@ -18,7 +18,8 @@ def index (request):
 
 def registro (request):
     if request.method == 'POST':
-        form = UserForm(request.POST)
+        form = UserForm(request.POST, request.FILES)
+        print(form.errors)
         if form.is_valid():
             data = form.cleaned_data
             username = data.get('nombre_usuario')
@@ -32,7 +33,7 @@ def registro (request):
             user_model.last_name = last_name
             user_model.email = email
 
-            user_app = Usuario (foto = data.FILES('foto'),
+            user_app = Usuario (foto = data.get('foto'),
                                 comentario_interes = data.get('comentario_interes'),
                                 pais_origen = data.get('pais_origen'),
                                 ciudad = data.get('ciudad'),

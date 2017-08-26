@@ -5,7 +5,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 # Create your models here.
-from django.forms import ModelForm
+
 from django import forms
 
 
@@ -38,10 +38,7 @@ class Comentario(models.Model):
     fecha = models.DateTimeField(auto_now_add= True, editable=False)
     comentario = models.CharField(max_length=1000, blank=False, null=True)
 
-class UserForm (ModelForm):
-    class Meta:
-        model = Usuario
-        fields = []
+class UserForm (forms.Form):
 
     nombre = forms.CharField(max_length=20)
     apellido = forms.CharField(max_length=20)
