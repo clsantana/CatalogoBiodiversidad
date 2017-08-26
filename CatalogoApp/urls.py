@@ -4,4 +4,5 @@ from CatalogoApp import views
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
+    url(r'registro$', views.registro, name='registro'),
 ]
