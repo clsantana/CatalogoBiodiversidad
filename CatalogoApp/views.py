@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
@@ -44,3 +45,36 @@ def registro (request):
         form = UserForm()
         context = {'form' : form}
     return render(request, 'CatalogoApp/registro.html', context)
+
+#@login_required
+def editar_perfil (request):
+    if request.method == 'POST':
+        form = UserForm(data=request.POST, instance=request.user)
+        print(form.errors)
+        if form.is_valid():
+
+            data = form.cleaned_data
+            username = data.get('nombre_usuario')
+            first_name = data.get('nombre')
+            last_name = data.get('apellido')
+            password = data.get('clave')
+            email = data.get('email')
+
+            user_model = User.objects.get()
+            user_model.usuario_set(User)
+            #user_model = User.objects.create_user(username=username, password=password)
+            user_model.first_name = first_name
+            user_model.last_name = last_name
+            user_model.email = email
+
+            user_app = Usuario (foto = data.get('foto'),
+                                comentario_interes = data.get('comentario_interes'),
+                                pais_origen = data.get('pais_origen'),
+                                ciudad = data.get('ciudad'),
+                                auth_user_id = user_model);
+            user_app.save()
+            return HttpResponseRedirect(reverse('catalogo:index'))
+    else:
+        form = UserForm()
+        context = {'form' : form}
+    return render(request, 'CatalogoApp/modificar.html', context)
