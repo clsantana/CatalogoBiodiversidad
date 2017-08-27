@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-
-<<<<<<< HEAD
 from django.contrib.auth.decorators import login_required
-=======
+
 import json
 
 from django.contrib.auth import authenticate, login, logout
@@ -12,9 +10,7 @@ from django.http import JsonResponse
 # Create your views here.
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import DetailView
-
 from CatalogoApp.models import Especie
->>>>>>> develop
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
