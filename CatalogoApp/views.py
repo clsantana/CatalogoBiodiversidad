@@ -13,7 +13,7 @@ from django.views.generic import DetailView
 from CatalogoApp.models import Especie
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse
 from CatalogoApp.models import Especie, UserForm, Usuario
 
@@ -23,30 +23,28 @@ def index (request):
     context = {'lista_especies': lista_especies}
     return render(request, 'CatalogoApp/index.html', context)
 
-@csrf_exempt
 def login_view(request):
+    if request.user.is_authenticated():
+        return redirect(reverse('catalogo:index'))
     mensaje = ''
     if request.method == 'POST':
-        jsonUser = json.loads(request.body)
-        username = jsonUser['username']
-        password = jsonUser['password']
+        username = request.POST.get('username')
+        print username
+        password = request.POST.get('password')
+        print password
         user = authenticate(username=username, password=password)
         if user is not None:
             login(request, user)
-            mensaje = 'Ok'
+            return redirect(reverse('catalogo:index'))
         else:
             mensaje = 'Nombre de usuario o clave invalido'
 
-    return JsonResponse({'mensaje':mensaje})
+    return render(request,'CatalogoApp/login.html',{'mensaje':mensaje})
 
-@csrf_exempt
-def ingresar(request):
-    return render(request, "CatalogoApp/login.html")
 
-@csrf_exempt
 def logout_view(request):
     logout(request)
-    return JsonResponse({'mensaje':'Ok'})
+    return HttpResponseRedirect(reverse('catalogo:index'))
 
 @csrf_exempt
 def isLogged_view(request):
