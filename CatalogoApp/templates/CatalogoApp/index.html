@@ -60,31 +60,60 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="{% url 'catalogo:index' %}">Catalogo</a>
+			<a class="navbar-brand" href="{% url 'catalogo:index' %}">Catálogo</a>
 		</div>
 		<div id="navbar" class="collapse navbar-collapse">
 			<ul class="nav navbar-nav"></ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li id="add_user"><a href="{% url 'catalogo:registro' %}">Registro</a></li>
                 <li id="user_auth"><a name=""><span id="welcome"><strong>Bienvenido(a): {{ user.username }}</strong></span></a></li>
-                <li id="login_user"><a href="http://localhost:8000/catalogo/ingresar">Login <span class="glyphicon glyphicon-log-in"></span></a></li>
-			    <li id="cerrar_session"><a href="#" id="click_cerrar_session" onclick="logout();">Logout <span class="glyphicon glyphicon-log-out" ></span></a></li>
+                <li id="login_user"><a href="http://localhost:8000/catalogo/ingresar">Iniciar Sesión <span class="glyphicon glyphicon-log-in"></span></a></li>
+			    <li id="cerrar_session"><a href="#" id="click_cerrar_session" onclick="logout();">Cerrar Sesión <span class="glyphicon glyphicon-log-out" ></span></a></li>
             </ul>
 		</div>
 	</div>
 </nav>
 </header>
-
+ <br/>
  <div class="page-header">
-     <h1><center><b>CATÁLOGO DE ESPECIES</b></center></h1>
+     <h1><center><b>BIODIVERSIDAD CATÁLOGO DE ESPECIES</b></center></h1>
+     <h1><center><b>NUESTRA RESERVA</b></center></h1>
  </div>
-
-    {% for especie in lista_especies %}
-       <div class="col-md-4 col-sm-6 col-lg-3 well ">
-            <img class="img-responsive" src="/{{especie.foto}}" width="200" height="200">
-            <h2>{{especie.nombre}}</h2>
-            <h4>{{especie.desc_corta}}</h4>
+    <div class="container col-md-12 col-sm-12 col-lg-12">
+        {% for especie in lista_especies %}
+           <div class="panel panel-default col-md-3 col-sm-6 col-lg-3" style="padding:0;margin-right: 10px; height: 450px">
+               <div class="panel-heading" style ="text-align: center; ">
+                   <h2 style="text-transform: uppercase; font-weight: bold">{{especie.categoria.nombre}}</h2>
+               </div>
+               <div class="panel-body">
+                   <div style="height: 150px">
+                        <img class="img-responsive" src="/{{especie.foto}}" style="margin: 0 auto; max-height: 150px">
+                   </div>
+                   <div style="height: 130px">
+                        <h2 style="text-align: center; font-weight: bold">{{especie.nombre}}</h2>
+                        <h4 style="text-align: center">{{especie.desc_corta}}</h4>
+                   </div>
+               </div>
+               <div class="panel-footer" style="height: 30px">
+                   <a style="padding: 0; margin: 0; float: right" onclick="return abrir_modal('{% url 'catalogo:detalle_especie' especie.id %}')" class="btn">
+                            <span class="glyphicon glyphicon-eye-open"></span> Ver más
+                   </a>
+               </div>
+           </div>
+        {% endfor %}
+        <div id="popup" class="modal fade" role="dialog">
         </div>
-    {% endfor %}
+
+    </div>
 </body>
+<script>
+    function abrir_modal(url)
+    {
+        $('#popup').load(url, function()
+        {
+            $(this).modal('show');
+        });
+        return false;
+    }
+</script>
 </html>
