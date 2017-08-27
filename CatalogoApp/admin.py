@@ -11,7 +11,19 @@ class TaxonomiaAdmin(admin.ModelAdmin):
     list_display = ('nombre', )
 
 class EspeciesAdmin(admin.ModelAdmin):
-    list_display = ('nombre','nombre_cientifico','desc_corta','desc_larga','foto','categoria','taxonomia' )
+    list_display = ('nombre','nombre_cientifico','desc_corta','desc_larga','foto','get_categoria','get_taxonomia' )
+
+    def get_categoria(self, obj):
+        return obj.categoria.nombre
+
+    get_categoria.short_description = 'Categoria'
+    get_categoria.admin_order_field = 'nombre'
+
+    def get_taxonomia(self, obj):
+        return obj.taxonomia.nombre
+
+    get_taxonomia.short_description = 'Taxonomía'
+    get_taxonomia.admin_order_field = 'nombre'
 
 class UsuarioAdmin(admin.ModelAdmin):
     list_display = ('foto','pais_origen','ciudad','comentario_interes')
