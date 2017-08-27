@@ -17,12 +17,14 @@
                 if(data.mensaje == 'No')
                 {
                     $("#add_user").show();
+                    $("#user_auth").hide();
                     $("#cerrar_session").hide();
                     $("#login_user").show();
                 }
                 else
                 {
                     $("#add_user").hide();
+                    $("#user_auth").show();
                     $("#cerrar_session").show();
                     $("#login_user").hide();
                 }
@@ -42,6 +44,11 @@
             });
         }
     </script>
+    <style>
+        #welcome{
+            color: white;
+        }
+    </style>
 <body>
 <header>
     <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -59,6 +66,7 @@
 			<ul class="nav navbar-nav"></ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li id="add_user"><a href="{% url 'catalogo:registro' %}">Registro</a></li>
+                <li id="user_auth"><a name=""><span id="welcome"><strong>Bienvenido(a): {{ user.username }}</strong></span></a></li>
                 <li id="login_user"><a href="http://localhost:8000/catalogo/ingresar">Login <span class="glyphicon glyphicon-log-in"></span></a></li>
 			    <li id="cerrar_session"><a href="#" id="click_cerrar_session" onclick="logout();">Logout <span class="glyphicon glyphicon-log-out" ></span></a></li>
             </ul>
