@@ -8,6 +8,7 @@ from django.http import JsonResponse
 
 # Create your views here.
 from django.views.decorators.csrf import csrf_exempt
+from django.views.generic import DetailView
 
 from CatalogoApp.models import Especie
 from django.contrib.auth.models import User
@@ -84,3 +85,8 @@ def registro (request):
         form = UserForm()
         context = {'form' : form}
     return render(request, 'CatalogoApp/registro.html', context)
+
+def detalleEspecie(request,id=None):
+    especie = Especie.objects.get(id=id)
+    context = {'especie': especie}
+    return render(request, 'CatalogoApp/detalle_especie.html', context)

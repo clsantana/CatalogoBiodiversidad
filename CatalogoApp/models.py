@@ -12,8 +12,14 @@ from django import forms
 class CategoriaEspecie (models.Model):
     nombre = models.CharField(max_length=50)
 
+    def __str__(self):
+        return self.nombre
+
 class TaxonomiaEspecie (models.Model):
     nombre = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.nombre
 
 class Especie(models.Model):
     nombre = models.CharField(max_length=50)
@@ -23,6 +29,9 @@ class Especie(models.Model):
     foto = models.ImageField(upload_to='images',null=True)
     categoria = models.ForeignKey(CategoriaEspecie, null=False)
     taxonomia = models.ForeignKey(TaxonomiaEspecie, null=False)
+
+    def __str__(self):
+        return self.nombre
 
 class Usuario(models.Model):
     foto = models.ImageField(upload_to='images/user',null=True)
