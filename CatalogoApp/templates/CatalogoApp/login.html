@@ -1,3 +1,10 @@
+{# Load the tag library #}
+{% load bootstrap3 %}
+{% load static %}
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -8,8 +15,13 @@
     <meta name="author" content="">
     <link rel="icon" href="">
 
+    <!-- Custom styles for this template -->
+    <link href="{% static 'css/freelancer.css' %}" rel="stylesheet">
+
+
+
     <title>Login</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!--<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">-->
     <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
     <script>
         $(document).ready(function () {
@@ -84,8 +96,8 @@
   </head>
 
   <body>
-    <div class="container">
-
+    <section class="success">
+        <div class="container masthead">
         <form class="form-signin" method="post" id="form-login">
             <h2 class="form-signin-heading">Inicio de Sesión</h2>
             <div id="mess-error">
@@ -97,8 +109,13 @@
             <input id="inputUsername" class="form-control" placeholder="Usuario" required autofocus><br>
             <label for="inputPassword" class="sr-only">Contraseña</label>
             <input type="password" id="inputPassword" class="form-control" placeholder="Contraseña" required>
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+
+            <div class="mx-auto text-center">
+                <button class="btn btn-lg btn-outline" type="submit">Iniciar sesión</button>
+            </div>
         </form>
     </div> <!-- /container -->
+    </section>
+
   </body>
 </html>
