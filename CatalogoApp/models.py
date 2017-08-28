@@ -48,7 +48,6 @@ class Comentario(models.Model):
     comentario = models.CharField(max_length=1000, blank=False, null=True)
 
 class UserForm (forms.Form):
-
     nombre = forms.CharField(max_length=20)
     apellido = forms.CharField(max_length=20)
     foto = forms.ImageField()
@@ -66,11 +65,11 @@ class UserForm (forms.Form):
             raise forms.ValidationError('Nombre de usuario ya registrado')
         return username
 
-    def clean_email(self):
-        email = self.cleaned_data['email']
-        if User.objects.filter(email=email):
-            raise forms.ValidationError('Ya existe un email igual registrado')
-        return email
+    #def clean_email(self):
+    #    email = self.cleaned_data['email']
+    #    if User.objects.filter(email=email):
+    #        raise forms.ValidationError('Ya existe un email igual registrado')
+    #    return email
 
     def clean_password2(self):
         password = self.cleaned_data['clave']

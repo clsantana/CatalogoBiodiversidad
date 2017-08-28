@@ -79,6 +79,7 @@ def registro (request):
                                 pais_origen = data.get('pais_origen'),
                                 ciudad = data.get('ciudad'),
                                 auth_user_id = user_model);
+            user_model.save()
             user_app.save()
             return HttpResponseRedirect(reverse('catalogo:index'))
     else:
@@ -86,13 +87,13 @@ def registro (request):
         context = {'form' : form}
     return render(request, 'CatalogoApp/registro.html', context)
 
-#@login_required
+@login_required
 def editar_perfil (request):
+
     if request.method == 'POST':
-        form = UserForm(data=request.POST, instance=request.user)
+        form = UserForm(request.POST, request.FILES)
         print(form.errors)
         if form.is_valid():
-
             data = form.cleaned_data
             username = data.get('nombre_usuario')
             first_name = data.get('nombre')
@@ -100,23 +101,43 @@ def editar_perfil (request):
             password = data.get('clave')
             email = data.get('email')
 
-            user_model = User.objects.get()
-            user_model.usuario_set(User)
-            #user_model = User.objects.create_user(username=username, password=password)
+            user_model = request.user
+            user_model.username = username
+            #user_model.password = password
             user_model.first_name = first_name
             user_model.last_name = last_name
             user_model.email = email
 
-            user_app = Usuario (foto = data.get('foto'),
-                                comentario_interes = data.get('comentario_interes'),
-                                pais_origen = data.get('pais_origen'),
-                                ciudad = data.get('ciudad'),
-                                auth_user_id = user_model);
+            user_app = Usuario.objects.get(auth_user_id=request.user)
+            user_app.foto = data.get('foto')
+            user_app.comentario_interes = data.get('comentario_interes')
+            user_app.pais_origen = data.get('pais_origen')
+            user_app.ciudad = data.get('ciudad')
+
+            #user_app = Usuario(foto=data.get('foto'),
+            #                   comentario_interes=data.get('comentario_interes'),
+            #                   pais_origen=data.get('pais_origen'),
+            #                   ciudad=data.get('ciudad'),
+            #                   auth_user_id=user_model);
+
+            user_model.save()
             user_app.save()
             return HttpResponseRedirect(reverse('catalogo:index'))
     else:
-        form = UserForm()
-        context = {'form' : form}
+        usuario = Usuario.objects.get(auth_user_id=request.user)
+        print(usuario.foto)
+        data = {'nombre': usuario.auth_user_id.first_name,
+                 'apellido': usuario.auth_user_id.last_name,
+                 'foto': usuario.foto,
+                 'pais_origen': usuario.pais_origen,
+                 'ciudad': usuario.ciudad,
+                 'comentario_interes': usuario.comentario_interes,
+                 'email': usuario.auth_user_id.email,
+                 'nombre_usuario': usuario.auth_user_id.username,
+                 'clave': usuario.auth_user_id.password,
+                 'confirme_clave': usuario.auth_user_id.password}
+        form = UserForm(data)
+        context = {'userForm': form}
     return render(request, 'CatalogoApp/modificar.html', context)
 
 def detalleEspecie(request,id=None):

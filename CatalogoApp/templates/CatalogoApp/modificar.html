@@ -12,7 +12,6 @@
 </head>
 
 <body>
-{% block content %}
     <div class="row">
         <div class="col-md-6 col-sm-offset-3">
             <div class="page-header">
@@ -20,7 +19,7 @@
             </div>
         <form method="post" action="" enctype="multipart/form-data">
             {% csrf_token %}
-            {% bootstrap_form form %}
+            {% bootstrap_form userForm %}
             {% buttons %}
                 <input type="submit" value="Actualizar" class="btn btn-primary"/>
                 <a href="{% url 'catalogo:index' %}" class="btn btn-primary">Cancelar</a>
@@ -28,6 +27,5 @@
             </form>
         </div>
     </div>
-{% endblock %}
 </body>
 </html>
