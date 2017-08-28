@@ -39,7 +39,7 @@
 			<ul class="nav navbar-nav"></ul>
 			<ul class="nav navbar-nav navbar-right">
 				{% if user.is_authenticated %}
-                <li id="user_auth"><a name=""><span id="welcome"><strong>Bienvenido(a): {{ user.username }}</strong></span></a></li>
+                <li id="user_auth"><a name=""><span id="welcome" style="color: #18BC9C"><strong>Bienvenido(a): {{ user.username }}</strong><span class="glyphicon glyphicon-user" ></span></span></a></li>
                 <li id="update_user"><a href="{% url 'catalogo:editar_perfil' %}">Editar Perfil</a></li>
                 <li id="cerrar_session"><a href="{% url 'catalogo:logout' %}" id="click_cerrar_session">Cerrar Sesión <span class="glyphicon glyphicon-log-out" ></span></a></li>
                 {% else %}
@@ -59,12 +59,18 @@
                     Catálogo de especies
                  </h1>
                  <br/>
-                 <p>Descubre las riquezas de especies que nuestro país posee a través de un variado listado de imágenes.</p>
-                 <p id="msj_add_user">Regístrate para conocer toda la información.</p>
+                 {% if user.is_authenticated %}
+                     <p>Descubre las riquezas de especies que nuestro país posee a través de un variado listado de imágenes.</p>
+
+                 {% else %}
+                    <p>Descubre las riquezas de especies que nuestro país posee a través de un variado listado de imágenes.</p>
++                   <p>Regístrate para conocer toda la información.</p>
+                    <p>
+                        <a id="add_user" class="btn btn-primary btn-lg" href="{% url 'catalogo:registro' %}">Registrarse</a>
+                    </p>
+                 {% endif %}
                  <br/>
-                 <p>
-                     <a id="add_user" class="btn btn-primary btn-lg" href="{% url 'catalogo:registro' %}">Registrarse</a>
-                 </p>
+
              </div>
             </div>
         </div>
