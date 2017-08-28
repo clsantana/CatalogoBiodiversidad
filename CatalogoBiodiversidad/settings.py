@@ -26,7 +26,7 @@ SECRET_KEY = 'g5%^6(f!+c)q@^w8!bq_!a%79j5#layd%$b)&lqf9vfc@7^va_'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', 'catalogobiodiversidad.herokuapp.com']
+ALLOWED_HOSTS = ['localhost', 'catalogobiodiversidad.herokuapp.com', '127.0.0.1', '127.0.0.1:8000']
 
 
 # Application definition
@@ -81,7 +81,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'biodiversidad',
         'USER': 'postgres',
-        'PASSWORD': '',
+        'PASSWORD': '1072661319',
         'HOST': 'localhost',
         'PORT': '5432',
 
