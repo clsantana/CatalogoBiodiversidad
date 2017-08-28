@@ -1,25 +1,129 @@
 {# Load the tag library #}
 {% load bootstrap3 %}
+{% load static %}
 
 {# Load CSS and JavaScript #}
 {% bootstrap_css %}
-{% bootstrap_javascript %}
+{% bootstrap_javascript jquery=1 %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Bienvenido</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Grupo4. Uniandes">
+    
+    <!-- Custom styles for this template -->
+    <link href="{% static 'css/jumbotron.css' %}" rel="stylesheet">
+    <link href="{% static 'css/freelancer.css' %}" rel="stylesheet">
+
+    <!-- Custom fonts for this template -->
+    <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
 </head>
 <body>
-<header>
-    <h1><center><b>CATÁLOGO DE ESPECIES</b></center></h1>
-</header>
-    {% for especie in lista_especies %}
-       <div class="col-md-4 col-sm-6 col-lg-3 well ">
-            <img class="img-responsive" src="/{{especie.foto}}" width="200" height="200">
-            <h2>{{especie.nombre}}</h2>
-            <h4>{{especie.desc_corta}}</h4>
+    <nav class="navbar navbar-expand-sm fixed-top">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="{% url 'catalogo:index' %}">BIODIVERSIDAD</a>
+
+		</div>
+		<div id="navbar" class="collapse navbar-collapse">
+			<ul class="nav navbar-nav"></ul>
+			<ul class="nav navbar-nav navbar-right">
+				{% if user.is_authenticated %}
+                <li id="user_auth"><a name=""><span id="welcome" style="color: #18BC9C"><strong>Bienvenido(a): {{ user.username }}</strong><span class="glyphicon glyphicon-user" ></span></span></a></li>
+                <li id="update_user"><a href="{% url 'catalogo:editar_perfil' %}">Editar Perfil</a></li>
+                <li id="cerrar_session"><a href="{% url 'catalogo:logout' %}" id="click_cerrar_session">Cerrar Sesión <span class="glyphicon glyphicon-log-out" ></span></a></li>
+                {% else %}
+                <li id="login_user"><a href="{% url 'catalogo:login' %}">Iniciar Sesión <span class="glyphicon glyphicon-log-in"></span></a></li>
+                {% endif %}
+            </ul>
+		</div>
+	</div>
+    </nav>
+
+    <br/>
+    <section class="success">
+        <div class="masthead">
+            <div class="container">
+             <div class="page-header jum">
+                 <h1 class="display-3">
+                    Catálogo de especies
+                 </h1>
+                 <br/>
+                 {% if user.is_authenticated %}
+                     <p>Descubre las riquezas de especies que nuestro país posee a través de un variado listado de imágenes.</p>
+
+                 {% else %}
+                    <p>Descubre las riquezas de especies que nuestro país posee a través de un variado listado de imágenes.</p>
++                   <p>Regístrate para conocer toda la información.</p>
+                    <p>
+                        <a id="add_user" class="btn btn-primary btn-lg" href="{% url 'catalogo:registro' %}">Registrarse</a>
+                    </p>
+                 {% endif %}
+                 <br/>
+
+             </div>
+            </div>
         </div>
-    {% endfor %}
+
+    </section>
+
+
+    <div class="footer-below col-md-12 col-sm-12 col-lg-12">
+        {% for especie in lista_especies %}
+           <div class="panel panel-default col-md-3 col-sm-6 col-lg-3" style="padding:0;margin-right: 10px; height: 450px">
+               <div class="panel-heading" style ="text-align: center; ">
+                   <h2 style="text-transform: uppercase; font-weight: bold">{{especie.categoria.nombre}}</h2>
+               </div>
+               <div class="panel-body">
+                   <div style="height: 150px">
+                        <img class="img-responsive" src="/{{especie.foto}}" style="margin: 0 auto; max-height: 150px">
+                   </div>
+                   <div style="height: 130px">
+                        <h3 style="text-align: center; font-weight: bold">{{especie.nombre}}</h3>
+                        <p style="text-align: justify">{{especie.desc_corta}}</p>
+                   </div>
+               </div>
+               <div class="panel-footer" style="height: 30px">
+                   <a style="padding: 0; margin: 0; float: right" onclick="return abrir_modal('{% url 'catalogo:detalle_especie' especie.id %}')" class="btn">
+                            <span class="glyphicon glyphicon-eye-open"></span> Ver más
+                   </a>
+               </div>
+           </div>
+        {% endfor %}
+        <div id="popup" class="modal fade" role="dialog"></div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center">
+      <div class="footer-below">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-12">
+              Copyright &copy; Grupo #4 - 2017
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
 </body>
+<script>
+    function abrir_modal(url)
+    {
+        $('#popup').load(url, function()
+        {
+            $(this).modal('show');
+        });
+        return false;
+    }
+</script>
 </html>

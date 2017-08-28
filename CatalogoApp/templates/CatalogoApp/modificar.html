@@ -1,0 +1,31 @@
+{# Load the tag library #}
+{% load bootstrap3 %}
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery=1 %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Perfil</title>
+</head>
+
+<body>
+    <div class="row">
+        <div class="col-md-6 col-sm-offset-3">
+            <div class="page-header">
+                <h2>Editar Perfil</h2>
+            </div>
+        <form method="post" action="" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% bootstrap_form userForm %}
+            {% buttons %}
+                <input type="submit" value="Actualizar" class="btn btn-primary"/>
+                <a href="{% url 'catalogo:index' %}" class="btn btn-primary">Cancelar</a>
+            {% endbuttons %}
+            </form>
+        </div>
+    </div>
+</body>
+</html>

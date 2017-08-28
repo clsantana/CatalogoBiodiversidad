@@ -26,7 +26,7 @@ SECRET_KEY = 'g5%^6(f!+c)q@^w8!bq_!a%79j5#layd%$b)&lqf9vfc@7^va_'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', 'catalogobiodiversidad.herokuapp.com']
+ALLOWED_HOSTS = ['localhost', 'catalogobiodiversidad.herokuapp.com', '127.0.0.1', '127.0.0.1:8000']
 
 
 # Application definition
@@ -79,10 +79,10 @@ WSGI_APPLICATION = 'CatalogoBiodiversidad.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'd78tjiqb43cltd',
-        'USER': 'ontoevpfjakumf',
-        'PASSWORD': 'd6f3b3e26d57c53205748d28445fb73b1e1ca1ee4a6ae8f27bdd2ec0459ff9a7',
-        'HOST': 'ec2-174-129-224-33.compute-1.amazonaws.com',
+        'NAME': 'catalogoBiodiversidad',
+        'USER': 'makito',
+        'PASSWORD': '',
+        'HOST': 'localhost',
         'PORT': '5432',
 
     }
@@ -132,3 +132,4 @@ STATIC_ROOT = 'staticfiles'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR,'images'),
 )
+
