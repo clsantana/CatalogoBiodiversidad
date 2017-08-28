@@ -12,8 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="Grupo4. Uniandes">
-
-
+    
     <!-- Custom styles for this template -->
     <link href="{% static 'css/jumbotron.css' %}" rel="stylesheet">
     <link href="{% static 'css/freelancer.css' %}" rel="stylesheet">
@@ -35,6 +34,7 @@
 				<span class="icon-bar"></span>
 			</button>
 			<a class="navbar-brand" href="{% url 'catalogo:index' %}">BIODIVERSIDAD</a>
+
 		</div>
 		<div id="navbar" class="collapse navbar-collapse">
 			<ul class="nav navbar-nav"></ul>
@@ -59,8 +59,8 @@
                     Catálogo de especies
                  </h1>
                  <br/>
-                 <p>Descubre las riquezas de especies que nuestro país posee a través de un variado listado de imágenes.
-                     Regístrate para conocer toda la información.</p>
+                 <p>Descubre las riquezas de especies que nuestro país posee a través de un variado listado de imágenes.</p>
+                 <p id="msj_add_user">Regístrate para conocer toda la información.</p>
                  <br/>
                  <p>
                      <a id="add_user" class="btn btn-primary btn-lg" href="{% url 'catalogo:registro' %}">Registrarse</a>
