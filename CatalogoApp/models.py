@@ -81,3 +81,8 @@ class UserForm (ModelForm):
         if password != password2:
             raise forms.ValidationError('Las claves no coinciden')
         return password2
+class FilterForm (forms.Form):
+    listaCategorias = forms.ModelChoiceField(queryset=CategoriaEspecie.objects.all(),
+                                             empty_label='Todas...',
+                                             required = False)
+
