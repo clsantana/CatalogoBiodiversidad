@@ -37,7 +37,7 @@ class Especie(models.Model):
 
 class Usuario(models.Model):
     foto = models.ImageField(upload_to='images/user',null=True)
-    pais_origen =  models.ForeignKey(Country)
+    pais_origen = models.ForeignKey(Country)
     ciudad = models.ForeignKey(City)
     comentario_interes = models.CharField(max_length=1000)
     auth_user_id = models.ForeignKey(User, null = False)
