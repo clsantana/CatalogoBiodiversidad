@@ -9,6 +9,7 @@ from django.http import JsonResponse
 
 # Create your views here.
 from django.views.decorators.csrf import csrf_exempt
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic import DetailView
 from CatalogoApp.models import Especie
 from django.contrib.auth.models import User
@@ -20,8 +21,18 @@ from CatalogoApp.models import Especie, UserForm, Usuario
 
 def index (request):
     lista_especies = Especie.objects.all()
-    context = {'lista_especies': lista_especies}
-    return render(request, 'CatalogoApp/index.html', context)
+    page = request.GET.get('page', 1)
+
+    paginator = Paginator(lista_especies, 4)
+
+    try:
+        especies = paginator.page(page)
+    except PageNotAnInteger:
+        especies = paginator.page(1)
+    except EmptyPage:
+        especies = paginator.page(paginator.num_pages)
+
+    return render(request, 'CatalogoApp/index.html', {'especies':especies})
 
 def login_view(request):
     if request.user.is_authenticated():
@@ -29,9 +40,7 @@ def login_view(request):
     mensaje = ''
     if request.method == 'POST':
         username = request.POST.get('username')
-        print username
         password = request.POST.get('password')
-        print password
         user = authenticate(username=username, password=password)
         if user is not None:
             login(request, user)
