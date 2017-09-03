@@ -11,16 +11,16 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic import DetailView
-from CatalogoApp.models import Especie
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from CatalogoApp.models import Especie, UserForm, Usuario, Comentario
+from CatalogoApp.models import Especie, UserForm, Usuario, Comentario, CategoriaEspecie
 
 
 def index (request):
     lista_especies = Especie.objects.all()
+    lista_categorias = CategoriaEspecie.objects.all()
     page = request.GET.get('page', 1)
 
     paginator = Paginator(lista_especies, 4)
@@ -32,7 +32,7 @@ def index (request):
     except EmptyPage:
         especies = paginator.page(paginator.num_pages)
 
-    return render(request, 'CatalogoApp/index.html', {'especies':especies})
+    return render(request, 'CatalogoApp/index.html', {'especies':especies, 'categorias':lista_categorias})
 
 def login_view(request):
     if request.user.is_authenticated():
