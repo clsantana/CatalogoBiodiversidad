@@ -51,7 +51,7 @@ class Comentario(models.Model):
 class UserForm (ModelForm):
 
     class Meta :
-        model = User
+        model = Usuario
         fields = ['foto', 'pais_origen', 'ciudad', 'comentario_interes', 'auth_user_id']
 
     nombre = forms.CharField(max_length=20)
