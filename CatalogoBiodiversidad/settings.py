@@ -81,7 +81,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'biodiversidad',
         'USER': 'postgres',
-        'PASSWORD': '1072661319',
+        'PASSWORD': 'agil2017',
         'HOST': 'localhost',
         'PORT': '5432',
 
