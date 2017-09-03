@@ -42,7 +42,6 @@ class Usuario(models.Model):
     auth_user_id = models.ForeignKey(User, null = False)
 
 class Comentario(models.Model):
-    usuario_id = models.ForeignKey(Usuario, null=False)
     especie_id = models.ForeignKey(Especie, null=False)
     email = models.CharField(max_length=500,null=True)
     fecha = models.DateTimeField(auto_now_add= True, editable=False)
