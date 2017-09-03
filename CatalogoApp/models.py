@@ -52,7 +52,7 @@ class UserForm (ModelForm):
 
     class Meta :
         model = Usuario
-        fields = ['foto', 'pais_origen', 'ciudad', 'comentario_interes', 'auth_user_id']
+        fields = ['foto', 'pais_origen', 'ciudad', 'comentario_interes']
 
     nombre = forms.CharField(max_length=20)
     apellido = forms.CharField(max_length=20)
