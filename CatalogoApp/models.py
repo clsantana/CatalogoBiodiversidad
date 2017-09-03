@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from cities_light.models import City, Country
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -36,8 +37,8 @@ class Especie(models.Model):
 
 class Usuario(models.Model):
     foto = models.ImageField(upload_to='images/user',null=True)
-    pais_origen = models.CharField(max_length=60)
-    ciudad = models.CharField(max_length=60)
+    pais_origen =  models.ForeignKey(Country)
+    ciudad = models.ForeignKey(City)
     comentario_interes = models.CharField(max_length=1000)
     auth_user_id = models.ForeignKey(User, null = False)
 
