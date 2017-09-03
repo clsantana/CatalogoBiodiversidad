@@ -16,7 +16,6 @@
     <!-- Custom styles for this template -->
     <link href="{% static 'css/jumbotron.css' %}" rel="stylesheet">
     <link href="{% static 'css/freelancer.css' %}" rel="stylesheet">
-    <link href="{% static 'css/styles.css' %}" rel="stylesheet">
 
     <!-- Custom fonts for this template -->
     <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -81,10 +80,7 @@
 
     <div class="footer-below col-md-12 col-sm-12 col-lg-12" style="margin-top: 15px">
         {% for especie in especies %}
-            <div class="col-md-3 col-sm-6 col-lg-3" style="padding:0 5px 0 5px ;">
-
-
-           <div class="panel panel-default" style="padding:0; height: 530px;">
+           <div class="panel panel-default col-md-3 col-sm-6 col-lg-3" style="padding:0;margin-right: 12px; height: 450px; width: 24%">
                <div class="panel-heading" style ="text-align: center; ">
                    <h2 style="text-transform: uppercase; font-weight: bold">{{especie.categoria.nombre}}</h2>
                </div>
@@ -92,21 +88,19 @@
                    <div style="height: 150px">
                         <img class="img-responsive" src="/{{especie.foto}}" style="margin: 0 auto; max-height: 150px">
                    </div>
-                   <div style="height: 200px">
+                   <div style="height: 130px">
                         <h3 style="text-align: center; font-weight: bold">{{especie.nombre}}</h3>
                         <p style="text-align: justify; overflow: auto;">{{especie.desc_corta}}</p>
                    </div>
                </div>
-               <div class="panel-footer" style="height: 45px">
+               <div class="panel-footer" style="height: 30px">
                    <a style="padding: 0; margin: 0; float: right" onclick="return abrir_modal('{% url 'catalogo:detalle_especie' especie.id %}')" class="btn">
                             <span class="glyphicon glyphicon-eye-open"></span> Ver más
                    </a>
                </div>
            </div>
-            </div>
         {% endfor %}
-        <br/>
-        <div class="col-lg-12 col-centrada text-center">
+        <div class="col-lg-12">
             {% if especies.has_other_pages %}
             <ul class="pagination">
                 {% if especies.has_previous %}

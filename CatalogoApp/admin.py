@@ -29,7 +29,7 @@ class UsuarioAdmin(admin.ModelAdmin):
     list_display = ('foto','pais_origen','ciudad','comentario_interes')
 
 class ComentarioAdmin(admin.ModelAdmin):
-    list_display = ('especie_id','email','fecha','comentario')
+    list_display = ('usuario_id','especie_id','email','fecha','comentario')
 
 # Register your models here.
 admin.site.register(CategoriaEspecie, CategoriasAdmin)

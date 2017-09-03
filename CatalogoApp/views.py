@@ -16,7 +16,7 @@ from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from CatalogoApp.models import Especie, UserForm, Usuario, Comentario
+from CatalogoApp.models import Especie, UserForm, Usuario
 
 
 def index (request):
@@ -149,9 +149,6 @@ def editar_perfil (request):
 
 def detalleEspecie(request,id=None):
     especie = Especie.objects.get(id=id)
-    lista_comentarios = Comentario.objects.filter(especie_id=id)
-    context = {'especie': especie,
-               'lista_comentarios':lista_comentarios}
+    context = {'especie': especie}
     return render(request, 'CatalogoApp/detalle_especie.html', context)
-
 
