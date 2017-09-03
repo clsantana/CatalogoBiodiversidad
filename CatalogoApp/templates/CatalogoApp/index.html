@@ -80,17 +80,17 @@
 
     <div class="footer-below col-md-12 col-sm-12 col-lg-12" style="margin-top: 15px">
         <br/>
-        <div class="text-right col-centrada">
-            <label for="categorias" class="col-sm-2 label_filtro">Filtro:</label>
-            <div class="col-sm-2">
-                <select class="form-control" id="categorias">
-                    <option>Seleccione...</option>
-                    {% for categoria in categorias %}
-                        <option>{{ categoria.nombre }}</option>
-                    {% endfor %}
-                </select>
+        <form method="post" action="" enctype="multipart/form-data" name="filtro">
+            <div class="text-right col-centrada">
+                <label for="categorias" class="col-sm-2 label_filtro">Filtro:</label>
+                <div class="col-sm-2">
+                    {% csrf_token %}
+                    {{ filtro.listaCategorias }}
+                    <input type="submit" value="Buscar" class="btn btn-primary"/>
+                </div>
             </div>
-        </div>
+
+        </form>
         <br/><br/><br/>
         {% for especie in especies %}
             <div class="col-md-3 col-sm-6 col-lg-3" style="padding:0 5px 0 5px ;">
@@ -157,10 +157,8 @@
     </footer>
 </body>
 <script>
-    function abrir_modal(url)
-    {
-        $('#popup').load(url, function()
-        {
+    function abrir_modal(url) {
+        $('#popup').load(url, function () {
             $(this).modal('show');
         });
         return false;
