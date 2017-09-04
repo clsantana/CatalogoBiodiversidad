@@ -174,7 +174,6 @@ def guardarComentario(request, id=None):
             return HttpResponseRedirect(reverse('catalogo:index'))
 
     else:
-        print 'ENTRO AL GET'
         form = ComentarioForm()
         contexto = {'form': form,
                     'id':id}
