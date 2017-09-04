@@ -18,11 +18,11 @@
         <div class="modal-body">
             <div class="form-control-sm">
 
-                  <form method="POST" action="" enctype="multipart/form-data">
+                  <form method="POST" action="{% url 'catalogo:Comentario' id %}" enctype="multipart/form-data">
                     {% csrf_token %}
                     {% bootstrap_form form %}
                     {% buttons %}
-                        <input type="submit" href="{% url 'catalogo:Comentario'  %}" value="Enviar Comentario" class="btn btn-primary"/>
+                        <input type="submit" value="Enviar Comentario" class="btn btn-primary"/>
                     {% endbuttons %}
                   </form>
             </div>

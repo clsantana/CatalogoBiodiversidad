@@ -159,26 +159,22 @@ def guardarComentario(request, id=None):
     especie = Especie.objects.get(id=id)
 
     if request.method == 'POST':
-        print 'ENTRO AL POST'
         form = ComentarioForm(request.POST)
-        contexto = {"form": form}
         if form.is_valid():
             data = form.cleaned_data
             email = data.get('email')
             comentario = data.get('comentario')
             idespecie = especie
 
-            print email
-            print comentario
-            print idespecie
-
-            #comentario_model = Comentario(especie_id=idespecie, email=email, comentario=comentario)
-            #comentario_model.save()
+            comentario_model = Comentario(especie_id=idespecie, email=email, comentario=comentario)
+            comentario_model.save()
+            return HttpResponseRedirect(reverse('catalogo:index'))
 
     else:
         print 'ENTRO AL GET'
         form = ComentarioForm()
-        contexto = {'form': form}
+        contexto = {'form': form,
+                    'id':id}
         return render(request, 'CatalogoApp/Comentario.html', contexto)
 
 
