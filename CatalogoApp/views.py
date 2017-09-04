@@ -9,19 +9,34 @@ from django.http import JsonResponse
 
 # Create your views here.
 from django.views.decorators.csrf import csrf_exempt
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic import DetailView
-from CatalogoApp.models import Especie
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from CatalogoApp.models import Especie, UserForm, Usuario
-
+from CatalogoApp.models import Especie, UserForm, Usuario, Comentario, CategoriaEspecie, FilterForm, ComentarioForm
 
 def index (request):
     lista_especies = Especie.objects.all()
-    context = {'lista_especies': lista_especies}
-    return render(request, 'CatalogoApp/index.html', context)
+    if (request.POST):
+        filter = FilterForm(request.POST)
+        if filter.is_valid():
+            data = filter.cleaned_data
+            if data.get('listaCategorias') is not None:
+                lista_especies = Especie.objects.filter(categoria=data.get('listaCategorias'))
+    lista_categorias = FilterForm()
+    page = request.GET.get('page', 1)
+    paginator = Paginator(lista_especies, 4)
+
+    try:
+        especies = paginator.page(page)
+    except PageNotAnInteger:
+        especies = paginator.page(1)
+    except EmptyPage:
+        especies = paginator.page(paginator.num_pages)
+
+    return render(request, 'CatalogoApp/index.html', {'especies':especies, 'filtro':lista_categorias})
 
 def login_view(request):
     if request.user.is_authenticated():
@@ -29,9 +44,7 @@ def login_view(request):
     mensaje = ''
     if request.method == 'POST':
         username = request.POST.get('username')
-        #print username
         password = request.POST.get('password')
-        #print password
         user = authenticate(username=username, password=password)
         if user is not None:
             login(request, user)
@@ -82,7 +95,7 @@ def registro (request):
             return HttpResponseRedirect(reverse('catalogo:index'))
     else:
         form = UserForm()
-        context = {'form' : form}
+        context = {'form': form}
     return render(request, 'CatalogoApp/registro.html', context)
 
 @login_required
@@ -140,6 +153,29 @@ def editar_perfil (request):
 
 def detalleEspecie(request,id=None):
     especie = Especie.objects.get(id=id)
-    context = {'especie': especie}
+    lista_comentarios = Comentario.objects.filter(especie_id=id)
+    context = {'especie': especie,
+               'lista_comentarios':lista_comentarios}
     return render(request, 'CatalogoApp/detalle_especie.html', context)
 
+def guardarComentario(request, id=None):
+    especie = Especie.objects.get(id=id)
+
+    if request.method == 'POST':
+        form = ComentarioForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            email = data.get('email')
+            comentario = data.get('comentario')
+            idespecie = especie
+
+            comentario_model = Comentario(especie_id=idespecie, email=email, comentario=comentario)
+            comentario_model.save()
+            return HttpResponseRedirect(reverse('catalogo:index'))
+
+    else:
+        print 'ENTRO AL GET'
+        form = ComentarioForm()
+        contexto = {'form': form,
+                    'id':id}
+        return render(request, 'CatalogoApp/Comentario.html', contexto)

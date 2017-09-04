@@ -16,6 +16,7 @@
     <!-- Custom styles for this template -->
     <link href="{% static 'css/jumbotron.css' %}" rel="stylesheet">
     <link href="{% static 'css/freelancer.css' %}" rel="stylesheet">
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet">
 
     <!-- Custom fonts for this template -->
     <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -43,6 +44,7 @@
                 <li id="update_user"><a href="{% url 'catalogo:editar_perfil' %}">Editar Perfil</a></li>
                 <li id="cerrar_session"><a href="{% url 'catalogo:logout' %}" id="click_cerrar_session">Cerrar Sesión <span class="glyphicon glyphicon-log-out" ></span></a></li>
                 {% else %}
+                <li id="add_user"><a href="{% url 'catalogo:registro' %}">Registrarse <span class="glyphicon glyphicon-user"></span></a></li>
                 <li id="login_user"><a href="{% url 'catalogo:login' %}">Iniciar Sesión <span class="glyphicon glyphicon-log-in"></span></a></li>
                 {% endif %}
             </ul>
@@ -65,9 +67,10 @@
                  {% else %}
                     <p>Descubre las riquezas de especies que nuestro país posee a través de un variado listado de imágenes.</p>
 +                   <p>Regístrate para conocer toda la información.</p>
-                    <p>
+                    <!--mjmmj
+                     <p>
                         <a id="add_user" class="btn btn-primary btn-lg" href="{% url 'catalogo:registro' %}">Registrarse</a>
-                    </p>
+                    </p>-->
                  {% endif %}
                  <br/>
 
@@ -77,10 +80,23 @@
 
     </section>
 
+    <div class="footer-below col-md-12 col-sm-12 col-lg-12" style="margin-top: 15px">
 
-    <div class="footer-below col-md-12 col-sm-12 col-lg-12">
-        {% for especie in lista_especies %}
-           <div class="panel panel-default col-md-3 col-sm-6 col-lg-3" style="padding:0;margin-right: 10px; height: 450px">
+        <form method="post" action="" enctype="multipart/form-data" name="filtro">
+            <div class="col-lg-24 col-centrada text-right">
+                <p><label for="categorias" class="col-sm-5 label_filtro">Filtro:</label></p>
+                <div class="col-sm-2 col-centrada ">
+                    {% csrf_token %}
+                    {{ filtro.listaCategorias }}
+                    <input type="submit" value="Buscar" class="btn btn-primary"/>
+                </div>
+            </div>
+        </form>
+        <br/><br/><br/>
+        {% for especie in especies %}
+            <div class="col-md-3 col-sm-6 col-lg-3" style="padding:0 5px 0 5px ;">
+
+           <div class="panel panel-default" style="padding:0; height: 530px;">
                <div class="panel-heading" style ="text-align: center; ">
                    <h2 style="text-transform: uppercase; font-weight: bold">{{especie.categoria.nombre}}</h2>
                </div>
@@ -88,18 +104,46 @@
                    <div style="height: 150px">
                         <img class="img-responsive" src="/{{especie.foto}}" style="margin: 0 auto; max-height: 150px">
                    </div>
-                   <div style="height: 130px">
+                   <div style="height: 200px">
                         <h3 style="text-align: center; font-weight: bold">{{especie.nombre}}</h3>
-                        <p style="text-align: justify">{{especie.desc_corta}}</p>
+                        <p style="text-align: justify; overflow: auto;">{{especie.desc_corta}}</p>
                    </div>
                </div>
-               <div class="panel-footer" style="height: 30px">
+               <div class="panel-footer" style="height: 45px">
                    <a style="padding: 0; margin: 0; float: right" onclick="return abrir_modal('{% url 'catalogo:detalle_especie' especie.id %}')" class="btn">
                             <span class="glyphicon glyphicon-eye-open"></span> Ver más
                    </a>
+                   <a style="padding: 0; margin: 0; float: right" onclick="return abrir_modal('{% url 'catalogo:Comentario' especie.id %}')" class="btn">
+                        <span class="glyphicon glyphicon-pencil"></span> Dejar Comentario
+                   </a>
                </div>
            </div>
+            </div>
         {% endfor %}
+        <br/>
+        <div class="col-lg-12 col-centrada text-center">
+            {% if especies.has_other_pages %}
+            <ul class="pagination">
+                {% if especies.has_previous %}
+                    <li><a href="?page={{ especies.previous_page_number }}">&laquo;</a></li>
+                {% else %}
+                    <li class="disabled"><span>&laquo;</span></li>
+                {% endif %}
+                {% for i in especies.paginator.page_range %}
+                    {% if users.number == i %}
+                        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                    {% else %}
+                        <li><a href="?page={{ i }}">{{ i }}</a></li>
+                    {% endif %}
+                {% endfor %}
+                {% if especies.has_next %}
+                    <li><a href="?page={{ especies.next_page_number }}">&raquo;</a></li>
+                {% else %}
+                    <li class="disabled"><span>&raquo;</span></li>
+                {% endif %}
+            </ul>
+        {% endif %}
+        </div>
         <div id="popup" class="modal fade" role="dialog"></div>
     </div>
 
@@ -117,10 +161,8 @@
     </footer>
 </body>
 <script>
-    function abrir_modal(url)
-    {
-        $('#popup').load(url, function()
-        {
+    function abrir_modal(url) {
+        $('#popup').load(url, function () {
             $(this).modal('show');
         });
         return false;

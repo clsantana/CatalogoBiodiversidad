@@ -1,0 +1,32 @@
+{# Load the tag library #}
+{% load bootstrap3 %}
+{% load static %}
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery=1 %}
+<head>
+    <!-- Custom styles for this template -->
+    <link href="{% static 'css/jumbotron.css' %}" rel="stylesheet">
+    <link href="{% static 'css/freelancer.css' %}" rel="stylesheet">
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet">
+</head>
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header" style="margin: 3px;">
+            <button type="button" class="close" data-dismiss="modal">X</button>
+        </div>
+        <div class="modal-body">
+            <div class="form-control-sm">
+
+                  <form method="POST" action="{% url 'catalogo:Comentario' id %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {% bootstrap_form form %}
+                    {% buttons %}
+                        <input type="submit" value="Enviar Comentario" class="btn btn-primary"/>
+                    {% endbuttons %}
+                  </form>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,3 +1,4 @@
+
 <div class="modal-dialog modal-lg">
     <div class="modal-content">
         <div class="modal-header" style="margin: 3px;">
@@ -6,7 +7,7 @@
         <div class="modal-body">
             <div class="row">
                 <div class="col-lg-6 col-sm-6" >
-                    <img class="img-responsive" src="/{{especie.foto}}" style="margin: 0 auto; height:295px">
+                    <img class="img-responsive" src="/{{especie.foto}}" style="margin: 0 auto; height:250px">
                 </div>
                 <div class="col-lg-6 col-sm-6">
                     <ul class="list-group">
@@ -14,26 +15,75 @@
                         <p style="font-size:x-large; text-transform: uppercase; font-weight: bold; text-align: center; padding: 0;margin: 0;">{{ especie.nombre }}</p>
                       </li>
                       <li class="list-group-item">
-                          <label style="font-size: x-large; padding: 0; margin: 0; font-weight: bold">Clasificación Taxonómica:</label>
-                          <p style="font-size:large; padding: 0;margin: 0;">{{ especie.taxonomia.nombre }}</p></li>
+                          <label style="font-size: large; padding: 0; margin: 0; font-weight: bold">Clasificación Taxonómica:</label>
+                          <p style="font-size:medium; padding: 0;margin: 0;">{{ especie.taxonomia.nombre }}</p></li>
                       <li class="list-group-item">
-                          <label style="font-size: x-large; padding: 0; margin: 0; font-weight: bold">Nombre Científico:</label>
-                          <p style="font-size:large; padding: 0;margin: 0;">{{ especie.nombre_cientifico }}</p>
+                          <label style="font-size: large; padding: 0; margin: 0; font-weight: bold">Nombre Científico:</label>
+                          <p style="font-size:medium; padding: 0;margin: 0;">{{ especie.nombre_cientifico }}</p>
                       </li>
                       <li class="list-group-item">
-                          <label style="font-size: x-large; padding: 0; margin: 0; font-weight: bold">Categoría:</label>
-                          <p style="font-size:large; padding: 0;margin: 0;">{{ especie.categoria.nombre }}</p>
+                          <label style="font-size: large; padding: 0; margin: 0; font-weight: bold">Categoría:</label>
+                          <p style="font-size:medium; padding: 0;margin: 0;">{{ especie.categoria.nombre }}</p>
                       </li>
                     </ul>
                 </div>
                 <div class=" col-lg-12 col-sm-12">
                     <ul class="list-group" style="margin-top: 3px;">
                          <li class="list-group-item ">
-                             <p style="font-size:large; padding-top: 15px; text-align: justify">{{ especie.desc_larga }}</p>
+                             <p style="font-size:medium; padding-top: 3px; text-align: justify">{{ especie.desc_larga }}</p>
                          </li>
                     </ul>
+                </div>
+            </div>
+            <div class="panel -default">
+                <div class="panel-group">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                              <a data-toggle="collapse" href="#collapse1">Ver Comentarios</a>
+                            </h3>
+                        </div>
+                        <div id="collapse1" class="panel-collapse collapse pre-scrollable" style="max-height: 230px">
+                            <ul class="list-group" style="margin-top: 3px;">
+                            {% if lista_comentarios.count == 0 %}
+                                <li class="list-group-item ">
+                                    <p style="font-size:small; padding-top: 3px;">No hay comentarios registrados para esta especie</p>
+                                </li>
+                            {% else %}
+                                {% for comentario in lista_comentarios %}
+                                    <li class="list-group-item ">
+                                        <label style="font-size: x-small; padding: 0; margin: 0; font-weight: bold; color: darkgray; float: right">{{ comentario.fecha.date }}</label>
+                                        <br/>
+                                        <label style="font-size: small; padding: 0; margin: 0; font-weight: bold;">{{ comentario.email }}</label>
+                                        <p style="font-size:small; padding-top: 3px; text-align: justify; overflow-wrap: break-word">{{ comentario.comentario }}</p>
+                                    </li>
+                                {% endfor %}
+                            {% endif %}
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function(){
+        /* Button which shows and hides div with a id of "post-details" */
+        $( ".toggle-visibility" ).click(function() {
+
+          var target_selector = $(this).attr('data-target');
+          var $target = $( target_selector );
+
+          if ($target.is(':visible'))
+          {
+            $target.hide( "slow" );
+          }
+          else
+          {
+            $target.show( "slow" );
+          }
+          console.log($target.is(':visible'));
+        });
+    })
+</script>

@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'CatalogoApp',
     'bootstrap3',
+    'cities_light',
 ]
 
 MIDDLEWARE = [
