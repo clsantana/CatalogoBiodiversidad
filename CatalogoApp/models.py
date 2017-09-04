@@ -41,10 +41,14 @@ class Usuario(models.Model):
     auth_user_id = models.ForeignKey(User, null = False)
 
 class Comentario(models.Model):
-    especie_id = models.ForeignKey(Especie, null=False)
+    especie_id = models.ForeignKey(Especie, null=False, on_delete=models.CASCADE)
     email = models.CharField(max_length=500,null=True)
-    fecha = models.DateTimeField(auto_now_add= True, editable=False)
+    fecha = models.DateTimeField(auto_now_add=True, editable=False)
     comentario = models.CharField(max_length=1000, blank=False, null=True)
+
+class ComentarioForm(forms.Form):
+    email = forms.EmailField(widget=forms.EmailInput(), required=True)
+    comentario = forms.CharField(max_length=1000, widget=forms.Textarea(), required=True)
 
 class UserForm (forms.Form):
     nombre = forms.CharField(max_length=20)

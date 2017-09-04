@@ -1,3 +1,4 @@
+
 <div class="modal-dialog modal-lg">
     <div class="modal-content">
         <div class="modal-header" style="margin: 3px;">
@@ -66,3 +67,23 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function(){
+        /* Button which shows and hides div with a id of "post-details" */
+        $( ".toggle-visibility" ).click(function() {
+
+          var target_selector = $(this).attr('data-target');
+          var $target = $( target_selector );
+
+          if ($target.is(':visible'))
+          {
+            $target.hide( "slow" );
+          }
+          else
+          {
+            $target.show( "slow" );
+          }
+          console.log($target.is(':visible'));
+        });
+    })
+</script>
