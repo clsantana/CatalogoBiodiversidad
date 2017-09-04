@@ -44,6 +44,7 @@
                 <li id="update_user"><a href="{% url 'catalogo:editar_perfil' %}">Editar Perfil</a></li>
                 <li id="cerrar_session"><a href="{% url 'catalogo:logout' %}" id="click_cerrar_session">Cerrar Sesión <span class="glyphicon glyphicon-log-out" ></span></a></li>
                 {% else %}
+                <li id="add_user"><a href="{% url 'catalogo:registro' %}">Registrarse <span class="glyphicon glyphicon-user"></span></a></li>
                 <li id="login_user"><a href="{% url 'catalogo:login' %}">Iniciar Sesión <span class="glyphicon glyphicon-log-in"></span></a></li>
                 {% endif %}
             </ul>
@@ -66,9 +67,10 @@
                  {% else %}
                     <p>Descubre las riquezas de especies que nuestro país posee a través de un variado listado de imágenes.</p>
 +                   <p>Regístrate para conocer toda la información.</p>
-                    <p>
+                    <!--mjmmj
+                     <p>
                         <a id="add_user" class="btn btn-primary btn-lg" href="{% url 'catalogo:registro' %}">Registrarse</a>
-                    </p>
+                    </p>-->
                  {% endif %}
                  <br/>
 
@@ -110,6 +112,9 @@
                <div class="panel-footer" style="height: 45px">
                    <a style="padding: 0; margin: 0; float: right" onclick="return abrir_modal('{% url 'catalogo:detalle_especie' especie.id %}')" class="btn">
                             <span class="glyphicon glyphicon-eye-open"></span> Ver más
+                   </a>
+                   <a style="padding: 0; margin: 0; float: right" onclick="return abrir_modal('{% url 'catalogo:Comentario' especie.id %}')" class="btn">
+                        <span class="glyphicon glyphicon-pencil"></span> Dejar Comentario
                    </a>
                </div>
            </div>
