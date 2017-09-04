@@ -11,18 +11,23 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic import DetailView
-from CatalogoApp.models import Especie
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from CatalogoApp.models import Especie, UserForm, Usuario, Comentario
+from CatalogoApp.models import Especie, UserForm, Usuario, Comentario, CategoriaEspecie, FilterForm
 
 
 def index (request):
     lista_especies = Especie.objects.all()
+    if (request.POST):
+        filter = FilterForm(request.POST)
+        if filter.is_valid():
+            data = filter.cleaned_data
+            if data.get('listaCategorias') is not None:
+                lista_especies = Especie.objects.filter(categoria=data.get('listaCategorias'))
+    lista_categorias = FilterForm()
     page = request.GET.get('page', 1)
-
     paginator = Paginator(lista_especies, 4)
 
     try:
@@ -32,7 +37,7 @@ def index (request):
     except EmptyPage:
         especies = paginator.page(paginator.num_pages)
 
-    return render(request, 'CatalogoApp/index.html', {'especies':especies})
+    return render(request, 'CatalogoApp/index.html', {'especies':especies, 'filtro':lista_categorias})
 
 def login_view(request):
     if request.user.is_authenticated():
@@ -153,5 +158,3 @@ def detalleEspecie(request,id=None):
     context = {'especie': especie,
                'lista_comentarios':lista_comentarios}
     return render(request, 'CatalogoApp/detalle_especie.html', context)
-
-

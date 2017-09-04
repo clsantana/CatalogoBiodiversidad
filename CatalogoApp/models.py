@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from cities_light.models import City, Country
 from django.db import models
 from django.contrib.auth.models import User
 
 # Create your models here.
 
 from django import forms
+from django.forms import ModelForm
 
 
 class CategoriaEspecie (models.Model):
@@ -35,8 +37,8 @@ class Especie(models.Model):
 
 class Usuario(models.Model):
     foto = models.ImageField(upload_to='images/user',null=True)
-    pais_origen = models.CharField(max_length=60)
-    ciudad = models.CharField(max_length=60)
+    pais_origen = models.ForeignKey(Country)
+    ciudad = models.ForeignKey(City)
     comentario_interes = models.CharField(max_length=1000)
     auth_user_id = models.ForeignKey(User, null = False)
 
@@ -46,17 +48,19 @@ class Comentario(models.Model):
     fecha = models.DateTimeField(auto_now_add= True, editable=False)
     comentario = models.CharField(max_length=1000, blank=False, null=True)
 
-class UserForm (forms.Form):
+class UserForm (ModelForm):
+
+    class Meta :
+        model = Usuario
+        fields = ['foto', 'pais_origen', 'ciudad', 'comentario_interes']
+
     nombre = forms.CharField(max_length=20)
     apellido = forms.CharField(max_length=20)
-    foto = forms.ImageField()
-    pais_origen = forms.CharField(max_length=60)
-    ciudad = forms.CharField(max_length=60)
-    comentario_interes = forms.CharField(max_length=1000)
     email = forms.EmailField()
     nombre_usuario = forms.CharField(max_length=50)
     clave = forms.CharField(widget=forms.PasswordInput())
     confirme_clave = forms.CharField(widget=forms.PasswordInput())
+
 
     def clean_username(self):
         username = self.cleaned_data['nombre_usuario']
@@ -77,3 +81,8 @@ class UserForm (forms.Form):
         if password != password2:
             raise forms.ValidationError('Las claves no coinciden')
         return password2
+class FilterForm (forms.Form):
+    listaCategorias = forms.ModelChoiceField(queryset=CategoriaEspecie.objects.all(),
+                                             empty_label='Todas...',
+                                             required = False)
+

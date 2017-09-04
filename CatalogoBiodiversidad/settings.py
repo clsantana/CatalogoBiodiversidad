@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'CatalogoApp',
     'bootstrap3',
+    'cities_light',
 ]
 
 MIDDLEWARE = [
@@ -79,10 +80,10 @@ WSGI_APPLICATION = 'CatalogoBiodiversidad.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'biodiversidad',
-        'USER': 'postgres',
-        'PASSWORD': 'agil2017',
-        'HOST': 'localhost',
+        'NAME': 'd78tjiqb43cltd',
+        'USER': 'ontoevpfjakumf',
+        'PASSWORD': 'd6f3b3e26d57c53205748d28445fb73b1e1ca1ee4a6ae8f27bdd2ec0459ff9a7',
+        'HOST': 'ec2-174-129-224-33.compute-1.amazonaws.com',
         'PORT': '5432',
 
     }
