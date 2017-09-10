@@ -22,6 +22,20 @@
     <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    <script>
+        function logout() {
+            $.getJSON("http://127.0.0.1:8000/catalogo/logout").done(function (data) {
+                if(data.mensaje == "Ok")
+                {
+                    location.reload();
+                }
+                else
+                {
+                    alert("Hubo error!");
+                }
+            });
+        }
+    </script>
 </head>
 <body>
     <nav class="navbar navbar-expand-sm fixed-top">
@@ -42,10 +56,10 @@
 				{% if user.is_authenticated %}
                 <li id="user_auth"><a name=""><span id="welcome" style="color: #18BC9C"><strong>Bienvenido(a): {{ user.username }}</strong><span class="glyphicon glyphicon-user" ></span></span></a></li>
                 <li id="update_user"><a href="{% url 'catalogo:editar_perfil' %}">Editar Perfil</a></li>
-                <li id="cerrar_session"><a href="{% url 'catalogo:logout' %}" id="click_cerrar_session">Cerrar Sesión <span class="glyphicon glyphicon-log-out" ></span></a></li>
+                <li id="cerrar_session"><a href="#" id="click_cerrar_session" onclick="logout();">Cerrar Sesión <span class="glyphicon glyphicon-log-out" ></span></a></li>
                 {% else %}
                 <li id="add_user"><a href="{% url 'catalogo:registro' %}">Registrarse <span class="glyphicon glyphicon-user"></span></a></li>
-                <li id="login_user"><a href="{% url 'catalogo:login' %}">Iniciar Sesión <span class="glyphicon glyphicon-log-in"></span></a></li>
+                <li id="login_user"><a href="{% url 'catalogo:ingresar' %}">Iniciar Sesión <span class="glyphicon glyphicon-log-in"></span></a></li>
                 {% endif %}
             </ul>
 		</div>

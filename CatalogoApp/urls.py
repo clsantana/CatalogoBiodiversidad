@@ -11,4 +11,5 @@ urlpatterns = [
     url(r'registro$', views.registro, name='registro'),
     url(r'editar_perfil$', views.editar_perfil, name='editar_perfil'),
     url(r'^Comentario/(?P<id>.+)/$',views.guardarComentario, name="Comentario"),
+    url(r'^ingresar/$', views.ingresar, name="ingresar"),
 ]

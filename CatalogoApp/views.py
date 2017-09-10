@@ -42,26 +42,27 @@ def index (request):
 
     return render(request, 'CatalogoApp/index.html', {'especies':especies, 'filtro':lista_categorias})
 
+@csrf_exempt
 def login_view(request):
-    if request.user.is_authenticated():
-        return redirect(reverse('catalogo:index'))
-    mensaje = ''
+    mensaje = ""
     if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
+        jsonUser = json.loads(request.body)
+        username = jsonUser['username']
+        password = jsonUser['password']
         user = authenticate(username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect(reverse('catalogo:index'))
+            mensaje = 'Ok'
         else:
             mensaje = 'Nombre de usuario o clave invalido'
 
-    return render(request,'CatalogoApp/login.html',{'mensaje':mensaje})
+    return JsonResponse({'mensaje':mensaje})
 
 
 def logout_view(request):
     logout(request)
-    return HttpResponseRedirect(reverse('catalogo:index'))
+    return JsonResponse({'mensaje': 'Ok'})
+    #return HttpResponseRedirect(reverse('catalogo:index'))
 
 @csrf_exempt
 def isLogged_view(request):
@@ -194,3 +195,7 @@ def guardarComentario(request, id=None):
         contexto = {'form': form,
                     'id':id}
         return render(request, 'CatalogoApp/Comentario.html', contexto)
+
+@csrf_exempt
+def ingresar(request):
+    return render(request, "CatalogoApp/login.html")
