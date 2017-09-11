@@ -9,6 +9,25 @@
     <link href="{% static 'css/jumbotron.css' %}" rel="stylesheet">
     <link href="{% static 'css/freelancer.css' %}" rel="stylesheet">
     <link href="{% static 'css/styles.css' %}" rel="stylesheet">
+
+    <script>
+        $('form').submit(function (e) {
+            var formData = new FormData($('#formComentario')[0]);
+            $.ajax({
+                url: $(this).attr('action'),
+                type: $(this).attr('method'),
+                data: formData,
+                cache:false,
+                contentType: false,
+                processData: false,
+                success: function () {
+                    window.location = "http://localhost:8000/catalogo/"
+                }
+            });
+            e.preventDefault();
+        });
+    </script>
+
 </head>
 <div class="modal-dialog modal-lg">
     <div class="modal-content">
@@ -18,7 +37,7 @@
         <div class="modal-body">
             <div class="form-control-sm">
 
-                  <form method="POST" action="{% url 'catalogo:Comentario' id %}" enctype="multipart/form-data">
+                  <form id="formComentario" method="POST" action="http://localhost:8000/catalogo/Comentario/{{id}}/" enctype="multipart/form-data">
                     {% csrf_token %}
                     {% bootstrap_form form %}
                     {% buttons %}

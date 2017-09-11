@@ -163,39 +163,49 @@ def detalleEspecie(request,id=None):
                'lista_comentarios':lista_comentarios}
     return render(request, 'CatalogoApp/detalle_especie.html', context)
 
+@csrf_exempt
 def guardarComentario(request, id=None):
     especie = Especie.objects.get(id=id)
 
-    if request.method == 'POST':
-        form = ComentarioForm(request.POST)
-        if form.is_valid():
-            data = form.cleaned_data
-            email = data.get('email')
-            comentario = data.get('comentario')
-            idespecie = especie
-            comentario_model = Comentario(especie_id=idespecie, email=email, comentario=comentario)
-            comentario_model.save()
+    #if request.method == 'POST':
+    #form = ComentarioForm(request.POST)
+    #if form.is_valid():
+    #    data = form.cleaned_data
 
-            ## Envio de mail
-            sg = sendgrid.SendGridAPIClient(apikey="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")
-            from_email = Email("coments@grupo4.com")
-            to_email = Email(email)
-            subject = "Hiciste un comentario!"
-            content_full = 'Hola, agradecemos que participes en nuestra página web.\r\n'
-            content_full = content_full + 'Recibimos y almacenamos tu comentario: \r\n      \t'
-            content_full = content_full + comentario + '\r\n'
-            content_full = content_full + 'Favor no responder este correo'
-            content = Content("text/plain", content_full)
-            mail = Mail(from_email, subject, to_email, content)
-            response = sg.client.mail.send.post(request_body=mail.get())
-            return HttpResponseRedirect(reverse('catalogo:index'))
-    else:
-        print 'ENTRO AL GET'
-        form = ComentarioForm()
-        contexto = {'form': form,
-                    'id':id}
-        return render(request, 'CatalogoApp/Comentario.html', contexto)
+    email = request.POST['email']
+    comentario = request.POST['comentario']
+    idespecie = especie
+    comentario_model = Comentario(especie_id=idespecie, email=email, comentario=comentario)
+    comentario_model.save()
+    ## Envio de mail
+    sg = sendgrid.SendGridAPIClient(apikey="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")
+    from_email = Email("coments@grupo4.com")
+    to_email = Email(email)
+    subject = "Hiciste un comentario!"
+    content_full = 'Hola, agradecemos que participes en nuestra página web.\r\n'
+    content_full = content_full + 'Recibimos y almacenamos tu comentario: \r\n      \t'
+    content_full = content_full + comentario + '\r\n'
+    content_full = content_full + 'Favor no responder este correo'
+    content = Content("text/plain", content_full)
+    mail = Mail(from_email, subject, to_email, content)
+    response = sg.client.mail.send.post(request_body=mail.get())
+    #return HttpResponseRedirect(reverse('catalogo:index'))
+    #else:
+    #    print 'ENTRO AL GET'
+    #    form = ComentarioForm()
+    #    contexto = {'form': form,
+    #                'id':id}
+    #    return render(request, 'CatalogoApp/Comentario.html', contexto)
+    return JsonResponse({"mensaje": 'OK'})
 
 @csrf_exempt
 def ingresar(request):
     return render(request, "CatalogoApp/login.html")
+
+def nuevo_comentario(request,id=None):
+    form = ComentarioForm()
+    contexto = {'form': form,
+               'id':id}
+    return render(request,'CatalogoApp/comentario.html',contexto)
+
+
