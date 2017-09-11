@@ -37,7 +37,7 @@
         <div class="modal-body">
             <div class="form-control-sm">
 
-                  <form id="formComentario" method="POST" action="http://localhost:8000/catalogo/Comentario/{{id}}/" enctype="multipart/form-data">
+                  <form id="formComentario" method="POST" action="https://catalogobiodiversidad.herokuapp.com/catalogo/Comentario/{{id}}/" enctype="multipart/form-data">
                     {% csrf_token %}
                     {% bootstrap_form form %}
                     {% buttons %}
