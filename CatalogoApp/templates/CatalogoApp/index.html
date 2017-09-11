@@ -24,7 +24,7 @@
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
     <script>
         function logout() {
-            $.getJSON("https://catalogobiodiversidad.herokuapp.com:8000/catalogo/logout").done(function (data) {
+            $.getJSON("https://catalogobiodiversidad.herokuapp.com/catalogo/logout").done(function (data) {
                 if(data.mensaje == "Ok")
                 {
                     location.reload();
