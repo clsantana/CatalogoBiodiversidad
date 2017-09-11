@@ -77,29 +77,19 @@ WSGI_APPLICATION = 'CatalogoBiodiversidad.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
-#DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.postgresql',
-#        'NAME': 'd78tjiqb43cltd',
-#        'USER': 'ontoevpfjakumf',
-#        'PASSWORD': 'd6f3b3e26d57c53205748d28445fb73b1e1ca1ee4a6ae8f27bdd2ec0459ff9a7',
-#        'HOST': 'ec2-174-129-224-33.compute-1.amazonaws.com',
-#        'PORT': '5432',
-
-#    }
-#}
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'biodiversidad',
-        'USER': 'postgres',
-        'PASSWORD': 'agil2017',
-        'HOST': 'localhost',
+        'NAME': 'd78tjiqb43cltd',
+        'USER': 'ontoevpfjakumf',
+        'PASSWORD': 'd6f3b3e26d57c53205748d28445fb73b1e1ca1ee4a6ae8f27bdd2ec0459ff9a7',
+        'HOST': 'ec2-174-129-224-33.compute-1.amazonaws.com',
         'PORT': '5432',
 
     }
 }
+
+
 
 SENDGRID_APIKEY = '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'
 

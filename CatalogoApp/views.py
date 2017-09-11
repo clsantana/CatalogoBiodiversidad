@@ -58,7 +58,7 @@ def login_view(request):
 
     return JsonResponse({'mensaje':mensaje})
 
-
+@csrf_exempt
 def logout_view(request):
     logout(request)
     return JsonResponse({'mensaje': 'Ok'})
