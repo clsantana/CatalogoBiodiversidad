@@ -206,4 +206,4 @@ def nuevo_comentario(request,id=None):
     form = ComentarioForm()
     contexto = {'form': form,
                'id':id}
-    return render(request,'CatalogoApp/comentario.html',contexto)
+    return render(request,'CatalogoApp/Comentario.html',contexto)
