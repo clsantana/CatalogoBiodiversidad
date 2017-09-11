@@ -36,7 +36,7 @@
             $("#form-login").submit(function (event) {
                 $.ajax({
                     type: "POST",
-                    url: "http://127.0.0.1:8000/catalogo/login/",
+                    url: "https://catalogobiodiversidad.herokuapp.com:8000/catalogo/login/",
                     data: JSON.stringify({ username: $('#inputUsername').val(), password: $('#inputPassword').val() }),
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
@@ -44,7 +44,7 @@
                         console.log(data['mensaje']);
                         if (data['mensaje'] == 'Ok')
                         {
-                            window.location = "http://127.0.0.1:8000/catalogo/";
+                            window.location = "https://catalogobiodiversidad.herokuapp.com:8000/catalogo/";
                         }
                         else
                         {
