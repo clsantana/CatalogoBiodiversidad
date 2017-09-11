@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 import json
 
 from django.contrib.auth import authenticate, login, logout
+from django.core.mail import EmailMessage
 from django.http import JsonResponse
 
 # Create your views here.
@@ -15,6 +16,9 @@ from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse
+from sendgrid import sendgrid, Email
+from sendgrid.helpers.mail import Content, Mail
+
 from CatalogoApp.models import Especie, UserForm, Usuario, Comentario, CategoriaEspecie, FilterForm, ComentarioForm
 
 def index (request):
@@ -38,26 +42,27 @@ def index (request):
 
     return render(request, 'CatalogoApp/index.html', {'especies':especies, 'filtro':lista_categorias})
 
+@csrf_exempt
 def login_view(request):
-    if request.user.is_authenticated():
-        return redirect(reverse('catalogo:index'))
-    mensaje = ''
+    mensaje = ""
     if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
+        jsonUser = json.loads(request.body)
+        username = jsonUser['username']
+        password = jsonUser['password']
         user = authenticate(username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect(reverse('catalogo:index'))
+            mensaje = 'Ok'
         else:
             mensaje = 'Nombre de usuario o clave invalido'
 
-    return render(request,'CatalogoApp/login.html',{'mensaje':mensaje})
+    return JsonResponse({'mensaje':mensaje})
 
-
+@csrf_exempt
 def logout_view(request):
     logout(request)
-    return HttpResponseRedirect(reverse('catalogo:index'))
+    return JsonResponse({'mensaje': 'Ok'})
+    #return HttpResponseRedirect(reverse('catalogo:index'))
 
 @csrf_exempt
 def isLogged_view(request):
@@ -158,23 +163,47 @@ def detalleEspecie(request,id=None):
                'lista_comentarios':lista_comentarios}
     return render(request, 'CatalogoApp/detalle_especie.html', context)
 
+@csrf_exempt
 def guardarComentario(request, id=None):
     especie = Especie.objects.get(id=id)
 
-    if request.method == 'POST':
-        form = ComentarioForm(request.POST)
-        if form.is_valid():
-            data = form.cleaned_data
-            email = data.get('email')
-            comentario = data.get('comentario')
-            idespecie = especie
+    #if request.method == 'POST':
+    #form = ComentarioForm(request.POST)
+    #if form.is_valid():
+    #    data = form.cleaned_data
 
-            comentario_model = Comentario(especie_id=idespecie, email=email, comentario=comentario)
-            comentario_model.save()
-            return HttpResponseRedirect(reverse('catalogo:index'))
+    email = request.POST['email']
+    comentario = request.POST['comentario']
+    idespecie = especie
+    comentario_model = Comentario(especie_id=idespecie, email=email, comentario=comentario)
+    comentario_model.save()
+    ## Envio de mail
+    sg = sendgrid.SendGridAPIClient(apikey="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")
+    from_email = Email("coments@grupo4.com")
+    to_email = Email(email)
+    subject = "Hiciste un comentario!"
+    content_full = 'Hola, agradecemos que participes en nuestra página web.\r\n'
+    content_full = content_full + 'Recibimos y almacenamos tu comentario: \r\n      \t'
+    content_full = content_full + comentario + '\r\n'
+    content_full = content_full + 'Favor no responder este correo'
+    content = Content("text/plain", content_full)
+    mail = Mail(from_email, subject, to_email, content)
+    response = sg.client.mail.send.post(request_body=mail.get())
+    #return HttpResponseRedirect(reverse('catalogo:index'))
+    #else:
+    #    print 'ENTRO AL GET'
+    #    form = ComentarioForm()
+    #    contexto = {'form': form,
+    #                'id':id}
+    #    return render(request, 'CatalogoApp/Comentario.html', contexto)
+    return JsonResponse({"mensaje": 'OK'})
 
-    else:
-        form = ComentarioForm()
-        contexto = {'form': form,
-                    'id':id}
-        return render(request, 'CatalogoApp/Comentario.html', contexto)
+@csrf_exempt
+def ingresar(request):
+    return render(request, "CatalogoApp/login.html")
+
+def nuevo_comentario(request,id=None):
+    form = ComentarioForm()
+    contexto = {'form': form,
+               'id':id}
+    return render(request,'CatalogoApp/comentario.html',contexto)

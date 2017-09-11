@@ -28,6 +28,39 @@
           margin: 0 auto;
         }
       </style>
+      <script>
+        $(document).ready(function () {
+
+            $("#mess-error").hide();
+
+            $("#form-login").submit(function (event) {
+                $.ajax({
+                    type: "POST",
+                    url: "http://127.0.0.1:8000/catalogo/login/",
+                    data: JSON.stringify({ username: $('#inputUsername').val(), password: $('#inputPassword').val() }),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function(data){
+                        console.log(data['mensaje']);
+                        if (data['mensaje'] == 'Ok')
+                        {
+                            window.location = "http://127.0.0.1:8000/catalogo/";
+                        }
+                        else
+                        {
+                            $("#mess-error").show();
+                            $("#mensaje").html(data['mensaje']);
+                        }
+                    },
+                    failure: function (errMsg) {
+                        alert('Hubo error!');
+                    }
+                });
+                event.preventDefault();
+            });
+        });
+
+    </script>
   </head>
 
   <body>
@@ -40,16 +73,11 @@
     <section class="success">
         <div class="container masthead">
         <form class="form-signin" method="post" id="form-login">
-            {% csrf_token %}
             <h2 class="form-signin-heading">Inicio de Sesión</h2>
             <div id="mess-error">
-                {% if mensaje %}
                 <div class="alert alert-danger">
-                    <label for="mensaje" id="mensaje">
-                        {{ mensaje }}
-                    </label>
+                    <label for="mensaje" id="mensaje"></label>
                 </div>
-                {% endif %}
             </div>
             <label for="inputUsername" class="sr-only">Usuario</label>
             <input id="inputUsername" class="form-control" placeholder="Usuario" name="username" required autofocus ><br>
