@@ -165,8 +165,8 @@ def detalleEspecie(request,id=None):
 
 @csrf_exempt
 def guardarComentario(request, id=None):
-    especie = Especie.objects.get(id=id)
-
+   especie = Especie.objects.get(id=id)
+	aux = "15KksKtu1zOS57qtrg64Xza6oYRth97vHctsyhPgsSo";
     #if request.method == 'POST':
     #form = ComentarioForm(request.POST)
     #if form.is_valid():
@@ -178,8 +178,8 @@ def guardarComentario(request, id=None):
     comentario_model = Comentario(especie_id=idespecie, email=email, comentario=comentario)
     comentario_model.save()
     ## Envio de mail
-    sg = sendgrid.SendGridAPIClient(apikey="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")
-    from_email = Email("coments@grupo4.com")
+    sg = sendgrid.SendGridAPIClient(apikey="SG.3NIybsLsRme5o6vAl4za_w."+aux)
+     from_email = Email("coments@grupo4.com")
     to_email = Email(email)
     subject = "Hiciste un comentario!"
     content_full = 'Hola, agradecemos que participes en nuestra página web.\r\n'
