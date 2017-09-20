@@ -89,10 +89,6 @@ DATABASES = {
     }
 }
 
-
-
-SENDGRID_APIKEY = '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'
-
 #DATABASES['default'] = dj_database_url.config()
 
 
