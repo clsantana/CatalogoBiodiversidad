@@ -166,7 +166,7 @@ def detalleEspecie(request,id=None):
 @csrf_exempt
 def guardarComentario(request, id=None):
     especie = Especie.objects.get(id=id)
-	aux = "15KksKtu1zOS57qtrg64Xza6oYRth97vHctsyhPgsSo";
+    aux = "15KksKtu1zOS57qtrg64Xza6oYRth97vHctsyhPgsSo";
     #if request.method == 'POST':
     #form = ComentarioForm(request.POST)
     #if form.is_valid():
